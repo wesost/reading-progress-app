@@ -1,0 +1,19 @@
+
+
+services:
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_DATABASE: grclone_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
+
+volumes:
+  db_data:
