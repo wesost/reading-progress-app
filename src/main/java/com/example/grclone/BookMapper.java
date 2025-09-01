@@ -4,19 +4,32 @@ package com.example.grclone;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Component;
+
+import com.example.grclone.entities.Author;
+import com.example.grclone.entities.Book;
+
+@Component
 public class BookMapper {
-    public static BookDto toDto(Book book) {
-        return new BookDto(book.getIsbn(), book.getTitle(), book.getAuthor());
+    public BookDto toDto(Book book) {
+        return new BookDto(
+            book.getIsbn(),
+            book.getTitle(),
+            book.getAuthor().getName());
     }
 
-    public static Book toEntity(BookDto dto) {
-        return new Book(dto.getIsbn(), dto.getTitle(), dto.getAuthor());
+    public Book toEntity(BookDto dto, Author author) {
+        return new Book(
+            dto.getIsbn(),
+            dto.getTitle(),
+            author
+            );
     }
 
     // maps list of Book to list of BookDtos
-    public static List<BookDto> toDtoList(List<Book> books) {
+    public List<BookDto> toDtoList(List<Book> books) {
         return books.stream()
-        .map(BookMapper::toDto)
+        .map(this::toDto)
         .collect(Collectors.toList());
     }
 }
