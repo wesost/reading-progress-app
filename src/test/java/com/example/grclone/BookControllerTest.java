@@ -1,8 +1,12 @@
 package com.example.grclone;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Arrays;
 import  org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -20,6 +24,8 @@ class BookControllerTest {
 
     @MockitoBean // replace service layer w/ mock
     private BookService bookService;
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     void testGetBookByIsbnReturnsBookDto() throws Exception {
@@ -54,5 +60,23 @@ class BookControllerTest {
                .andExpect(jsonPath("$[0].authorName").value("Test Author"));
     }
 
+
+    // test /books correctly maps POST reqs to bookService.createBook
+    // and that returned JSON matches expected dto
+    @Test
+    void testCreateBookEndpoint() throws Exception {
+        BookDto inputDto = new BookDto("1234556789012", "testbook", "Fake author");
+        BookDto savedDto = new BookDto("9781234567890", "Test Book", "Test Author");
+
+        when(bookService.createBook(any(BookDto.class))).thenReturn(savedDto);
+
+        mockMvc.perform(post("/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(inputDto)))
+                .andExpect(status().isCreated()) // HTTP 201
+                .andExpect(jsonPath("$.isbn").value("9781234567890"))
+                .andExpect(jsonPath("$.title").value("Test Book"))
+                .andExpect(jsonPath("$.authorName").value("Test Author"));
+    }
 
 }

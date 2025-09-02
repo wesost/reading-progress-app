@@ -29,7 +29,12 @@ public class BookService {
 
     public BookDto createBook(BookDto bookDto) {
         Author author = authorRepository.findByName(bookDto.getAuthorName())
-        .orElseThrow(() -> new RuntimeException("Author not found: " +bookDto.getAuthorName()));
+        .orElseGet(() -> {
+            // if author doesn't already exist, create a new one
+            Author newAuthor = new Author(bookDto.getAuthorName());
+            return authorRepository.save(newAuthor);
+            
+        });
 
         Book book = bookMapper.toEntity(bookDto, author);
         Book saved = bookRepository.save(book);
