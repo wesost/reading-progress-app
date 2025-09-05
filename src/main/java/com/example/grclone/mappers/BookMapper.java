@@ -1,11 +1,12 @@
 // manual bookmapper but could also use ModelMapper or MapStruct in the future
-package com.example.grclone;
+package com.example.grclone.mappers;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import com.example.grclone.dtos.BookDto;
 import com.example.grclone.entities.Author;
 import com.example.grclone.entities.Book;
 

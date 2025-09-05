@@ -1,4 +1,4 @@
-package com.example.grclone;
+package com.example.grclone.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
