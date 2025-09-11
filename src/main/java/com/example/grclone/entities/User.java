@@ -1,15 +1,27 @@
 package com.example.grclone.entities;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+
+
 import jakarta.persistence.*;
 
 import lombok.*;
+import java.util.Collection;
+import java.util.List;
+
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(); // come back to this for adding admin/user roles
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

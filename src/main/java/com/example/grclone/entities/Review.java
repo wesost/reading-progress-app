@@ -1,6 +1,9 @@
 package com.example.grclone.entities;
 
 
+import org.hibernate.annotations.CreationTimestamp;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,7 +28,11 @@ public class Review {
     private User reviewer;
 
     @ManyToOne
-    @JoinColumn(name = "books_isbn", nullable = false)
+    @JoinColumn(name = "book_isbn", nullable = false) // just "isbn"?
     private Book book;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
 }
