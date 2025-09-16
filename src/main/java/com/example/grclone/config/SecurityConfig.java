@@ -30,7 +30,7 @@ public class SecurityConfig {
             )
             .logout(logout -> logout
                 .logoutUrl("/logout")
-                .logoutSuccessHandler((request, response, authentication) -> {
+                .logoutSuccessHandler((_, response, _) -> {
                     response.setStatus(HttpServletResponse.SC_OK);
                     response.setContentType("application/json");
                     response.getWriter().write("{\"message\":\"Logout successful\"}");

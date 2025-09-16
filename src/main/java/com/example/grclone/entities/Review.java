@@ -28,11 +28,17 @@ public class Review {
     private User reviewer;
 
     @ManyToOne
-    @JoinColumn(name = "book_isbn", nullable = false) // just "isbn"?
+    @JoinColumn(name = "book_isbn", nullable = false)
     private Book book;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    public Review(Float rating, String reviewText, User reviewer, Book book) {
+        this.rating = rating;
+        this.reviewText = reviewText;
+        this.reviewer = reviewer;
+        this.book = book;
+    }
 }

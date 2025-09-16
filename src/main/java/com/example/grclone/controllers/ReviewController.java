@@ -1,0 +1,37 @@
+package com.example.grclone.controllers;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.grclone.services.ReviewService;
+import com.example.grclone.dtos.ReviewDto;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.HttpStatus;
+
+
+
+@RestController
+@RequestMapping("/reviews")
+public class ReviewController {
+
+    private final ReviewService reviewService;
+
+    public ReviewController(ReviewService reviewService) {
+        this.reviewService = reviewService;
+    }
+
+    @PostMapping("/books/{isbn}")
+    public ResponseEntity<ReviewDto> createReview(
+        @RequestBody ReviewDto reviewDto
+
+    ) {
+        ReviewDto created = reviewService.createReview(reviewDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+
+       
+    
+}
