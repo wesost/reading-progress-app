@@ -3,6 +3,7 @@ package com.example.grclone.services;
 import org.springframework.stereotype.Service;
 
 import com.example.grclone.dtos.ReviewDto;
+import com.example.grclone.dtos.ReviewWithBookTitleDto;
 import com.example.grclone.repositories.UserRepository;
 import com.example.grclone.repositories.BookRepository;
 import com.example.grclone.mappers.ReviewMapper;
@@ -10,7 +11,7 @@ import com.example.grclone.repositories.ReviewRespository;
 import com.example.grclone.entities.Review;
 import com.example.grclone.entities.Book;
 import com.example.grclone.entities.User;
-
+import java.util.List;
 
 @Service
 public class ReviewService {
@@ -38,6 +39,11 @@ public class ReviewService {
         Review review = reviewMapper.toEntity(reviewDto, user, book);
         Review saved = reviewRespository.save(review);
         return reviewMapper.toDto(saved);
+    }
+
+    public List<ReviewWithBookTitleDto> getAllReviews() {
+        return reviewMapper.toListOfReviewWithBookTitleDto(reviewRespository.findAll());
+
     }
     // METHODS
     // Optional<List<Review>> getReviewsForBooksByAuthor(String authorName) // authors w/ same name?

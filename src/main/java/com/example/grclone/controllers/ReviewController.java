@@ -5,12 +5,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.grclone.services.ReviewService;
 import com.example.grclone.dtos.ReviewDto;
+import com.example.grclone.dtos.ReviewWithBookTitleDto;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
 
 
 @RestController
@@ -31,6 +34,12 @@ public class ReviewController {
         ReviewDto created = reviewService.createReview(reviewDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
+
+    @GetMapping()
+    public List<ReviewWithBookTitleDto> getAllReviews() {
+        return reviewService.getAllReviews();
+    }
+    
 
        
     
