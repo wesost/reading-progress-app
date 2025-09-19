@@ -1,6 +1,8 @@
 package com.example.grclone.services;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.grclone.dtos.ReviewDto;
 import com.example.grclone.dtos.ReviewWithBookTitleDto;
@@ -11,6 +13,8 @@ import com.example.grclone.repositories.ReviewRespository;
 import com.example.grclone.entities.Review;
 import com.example.grclone.entities.Book;
 import com.example.grclone.entities.User;
+
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -43,8 +47,23 @@ public class ReviewService {
 
     public List<ReviewWithBookTitleDto> getAllReviews() {
         return reviewMapper.toListOfReviewWithBookTitleDto(reviewRespository.findAll());
-
     }
+
+    public void deleteReview(Long reviewId, Principal principal) {
+        String username = principal.getName();
+
+        Review review = reviewRespository.findById(reviewId)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Review not found"));
+
+
+        if (!review.getReviewer().getUsername().equals(username)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unauthorized review deletion attempt");
+        }
+
+        reviewRespository.delete(review);
+    }
+
+    
     // METHODS
     // Optional<List<Review>> getReviewsForBooksByAuthor(String authorName) // authors w/ same name?
     // Optional<List<Review> getReviewsForBook(String isbn)

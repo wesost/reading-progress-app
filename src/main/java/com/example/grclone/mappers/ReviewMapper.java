@@ -39,11 +39,13 @@ public class ReviewMapper {
 
     public ReviewWithBookTitleDto toReviewWithBookTitleDto(Review review) {
         return new ReviewWithBookTitleDto(
+            review.getId(),
             review.getReviewer().getUsername(),
             review.getBook().getIsbn(),
             review.getBook().getTitle(),
             review.getRating(),
-            review.getReviewText()
+            review.getReviewText(),
+            review.getCreatedAt()
         );
     }
 
