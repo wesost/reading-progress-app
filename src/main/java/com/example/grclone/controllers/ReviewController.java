@@ -48,6 +48,11 @@ public class ReviewController {
         reviewService.deleteReview(id, principal);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{username}")
+    public List<ReviewWithBookTitleDto> getAllUserReviews(@PathVariable String username) {
+        return reviewService.getAllUserReviews(username);
+    }
     
 
        

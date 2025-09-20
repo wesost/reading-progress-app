@@ -49,6 +49,14 @@ public class ReviewService {
         return reviewMapper.toListOfReviewWithBookTitleDto(reviewRespository.findAll());
     }
 
+    public List<ReviewWithBookTitleDto> getAllUserReviews(String username){
+        User user = userRepository.findByUsername(username)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+            
+        List<Review> reviews = reviewRespository.findByReviewer(user);
+        return reviewMapper.toListOfReviewWithBookTitleDto(reviews);
+    } 
+
     public void deleteReview(Long reviewId, Principal principal) {
         String username = principal.getName();
 
