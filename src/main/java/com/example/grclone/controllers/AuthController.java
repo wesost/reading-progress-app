@@ -40,11 +40,6 @@ public class AuthController {
             userLoginRequestDto.getPassword()
         );
 
-        /*
-            // Optional: get the authenticated UserDetails
-            User user = (User) authResult.getPrincipal();
-            UserResponseDto dto = userMapper.toDto(user); // TODO: maybe needed to display logged in user's username on frontend.. ? low priority
-         */
         try {
             // store authentication result
             Authentication authResult = authenticationManager.authenticate(auth);

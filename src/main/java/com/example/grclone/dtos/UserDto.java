@@ -11,4 +11,5 @@ public class UserDto {
     private String username;
     private String email;
     private String password; // only for signup/login requests
+    private String role;
 }

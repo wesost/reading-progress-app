@@ -1,6 +1,7 @@
 package com.example.grclone.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -25,7 +26,9 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable()) // read into csrf
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/books/**", "/login/**", "/users", "/reviews/**").permitAll()
+                .requestMatchers("/books/**", "/login/**", "/reviews/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .logout(logout -> logout

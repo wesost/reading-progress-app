@@ -18,11 +18,6 @@ import java.util.List;
 @Table(name = "users")
 public class User implements UserDetails {
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(); // come back to this for adding admin/user roles
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,10 +31,19 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password; // hashed, not sure how this works look into JWT
 
-    public User(String username, String email, String password) {
+    @Column(nullable = false)
+    private String role = "ROLE_USER";
+
+    public User(String username, String email, String password, String role) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.role = "ROLE_USER";
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(() -> role);
     }
     
 }

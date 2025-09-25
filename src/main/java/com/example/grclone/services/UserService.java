@@ -1,6 +1,6 @@
 package com.example.grclone.services;
 
-
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -44,6 +44,10 @@ public class UserService implements UserDetailsService {
         }
 
         User user = userMapper.toEntity(userDto, passwordEncoder.encode(userDto.getPassword()));
+
+        if (user.getRole() == null) {
+            user.setRole("ROLE_USER");
+        }
         User saved = userRepository.save(user);
         return userMapper.toResponseDto(saved);
     }
@@ -53,6 +57,10 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
             .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+    }
+
+    public List<UserResponseDto> getAllUsers() {
+        return userMapper.toUserResponseDtoList(userRepository.findAll());
     }
 
 }
