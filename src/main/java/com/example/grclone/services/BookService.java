@@ -1,6 +1,8 @@
 package com.example.grclone.services;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -45,5 +47,25 @@ public class BookService {
 
      public List<BookDto> getAllBooks() {
         return bookMapper.toDtoList(bookRepository.findAll());
+    }
+
+    public List<BookDto> searchBooks(String title, String author) {
+        if ((title == null || title.isBlank()) &&
+        (author == null || author.isBlank())) {
+            throw new IllegalArgumentException("At least one search parameter must be entered");
+        }
+        Set<Book> results = new HashSet<>();
+
+        if (title != null && !title.isBlank()) {
+            results.addAll((bookRepository.findByTitleContainingIgnoreCase(title)));
+        }
+
+        if (author != null && !author.isBlank()) {
+            results.addAll(bookRepository.findByAuthor_NameContainingIgnoreCase(author));
+        }
+
+        return results.stream()
+            .map(bookMapper::toDto)
+            .toList();
     }
 }

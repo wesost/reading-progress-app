@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 // handles login/logout 
-// TODO: logout 
 @RestController
 @RequestMapping("/login")
 public class AuthController {
