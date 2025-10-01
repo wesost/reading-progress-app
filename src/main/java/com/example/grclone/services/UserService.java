@@ -1,6 +1,8 @@
 package com.example.grclone.services;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -61,6 +63,17 @@ public class UserService implements UserDetailsService {
 
     public List<UserResponseDto> getAllUsers() {
         return userMapper.toUserResponseDtoList(userRepository.findAll());
+    }
+
+    public List<UserResponseDto> searchUsers(String username) {
+        if (username == null || username.isBlank()) {
+            throw new IllegalArgumentException("please supply a username");
+        }
+        Set<User> results = new HashSet<>();
+        results.addAll(userRepository.findByUsernameContainingIgnoreCase(username));
+        return results.stream()
+            .map(userMapper::toResponseDto)
+            .toList();
     }
 
 }

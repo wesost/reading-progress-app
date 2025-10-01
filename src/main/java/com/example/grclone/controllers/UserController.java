@@ -2,6 +2,7 @@ package com.example.grclone.controllers;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,18 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<UserResponseDto>> searchUsers(
+        @RequestParam(value = "username", required = true) String username
+    ) {
+        List<UserResponseDto> users = userService.searchUsers(username);
+        return ResponseEntity.ok(users);
+    }
+
+    
     // delete user endpoint
+    // @DeleteMapping
+    // public ResponseEntity<UserResponseDto> deleteUser()
 
 
     //update user...low priority

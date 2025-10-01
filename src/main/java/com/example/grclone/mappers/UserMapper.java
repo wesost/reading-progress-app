@@ -44,6 +44,4 @@ public class UserMapper {
         }
 
 
-    // TODO: toDtoList list users for future admin functionality
-    
 }
