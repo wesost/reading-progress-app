@@ -76,4 +76,12 @@ public class UserService implements UserDetailsService {
             .toList();
     }
 
+    public void deleteUser(String username) {
+        User user = userRepository.findByUsername(username)
+            .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "User not found"
+            ));
+        userRepository.delete(user);
+    }
+
 }

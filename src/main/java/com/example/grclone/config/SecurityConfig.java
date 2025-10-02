@@ -26,9 +26,13 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable()) // read into csrf
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/books/**", "/login/**", "/reviews/**").permitAll()
+                .requestMatchers("/books/**", "/login/**").permitAll()
+
+                .requestMatchers(HttpMethod.DELETE, "/reviews/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers(HttpMethod.GET, "/reviews/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/users").permitAll()
                 .requestMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .logout(logout -> logout

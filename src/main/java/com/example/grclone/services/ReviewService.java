@@ -1,6 +1,7 @@
 package com.example.grclone.services;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -58,17 +59,23 @@ public class ReviewService {
     } 
 
     public void deleteReview(Long reviewId, Principal principal) {
-        String username = principal.getName();
 
         Review review = reviewRespository.findById(reviewId)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Review not found"));
+        .orElseThrow(() -> new ResponseStatusException(
+            HttpStatus.NOT_FOUND,
+            "Review not found"
+            ));
+            
+        User currentUser = userRepository.findByUsername(principal.getName())
+            .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.UNAUTHORIZED, "User not found"
+            ));
 
-
-        if (!review.getReviewer().getUsername().equals(username)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unauthorized review deletion attempt");
+        if (currentUser.getRole().equals("ROLE_ADMIN") || review.getReviewer().getUsername().equals(currentUser.getUsername())) {
+            reviewRespository.delete(review);
+        } else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You cannot delete this review");
         }
-
-        reviewRespository.delete(review);
     }
 
     

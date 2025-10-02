@@ -53,8 +53,4 @@ public class ReviewController {
     public List<ReviewWithBookTitleDto> getAllUserReviews(@PathVariable String username) {
         return reviewService.getAllUserReviews(username);
     }
-    
-
-       
-    
 }
