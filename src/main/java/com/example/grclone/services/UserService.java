@@ -33,9 +33,15 @@ public class UserService implements UserDetailsService {
     }
 
     public UserResponseDto createUser(UserDto userDto) { 
-        // check if user email already exists or if username already exists
-        // if so, error on duplicate email/username
-        // otherwise create and save new user
+    
+        if (!userDto.getUsername().matches("^[A-Za-z0-9_-]{3,20}$")){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid username: must be 3-20 characters, including only numbers, letters, dashes, and underscores");
+        }
+
+        if (!userDto.getEmail().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email");
+        }
+
 
         if (userRepository.findByUsername(userDto.getUsername()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Username already taken");
