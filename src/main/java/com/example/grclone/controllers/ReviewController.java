@@ -2,6 +2,7 @@ package com.example.grclone.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
 
 import com.example.grclone.services.ReviewService;
 import com.example.grclone.dtos.ReviewDto;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.security.Principal;
@@ -52,5 +54,15 @@ public class ReviewController {
     @GetMapping("/{username}")
     public List<ReviewWithBookTitleDto> getAllUserReviews(@PathVariable String username) {
         return reviewService.getAllUserReviews(username);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ReviewDto> updateReview(
+        @PathVariable Long id,
+        @RequestBody ReviewDto updatedReviewDto,
+        Authentication authentication
+    ) {
+        ReviewDto updated = reviewService.updateReview(id, updatedReviewDto, authentication);
+        return ResponseEntity.ok(updated);
     }
 }
