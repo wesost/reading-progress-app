@@ -33,10 +33,10 @@ public class ReviewController {
 
     @PostMapping("/books/{isbn}")
     public ResponseEntity<ReviewDto> createReview(
-        @RequestBody ReviewDto reviewDto
-
+        @RequestBody ReviewDto reviewDto,
+        Principal principal
     ) {
-        ReviewDto created = reviewService.createReview(reviewDto);
+        ReviewDto created = reviewService.createReview(reviewDto, principal);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 

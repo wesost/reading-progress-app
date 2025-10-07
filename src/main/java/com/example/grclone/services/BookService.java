@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+
 
 import com.example.grclone.dtos.BookDto;
 import com.example.grclone.entities.Author;
@@ -45,11 +49,12 @@ public class BookService {
         return bookMapper.toDto(saved);
     } 
 
-     public List<BookDto> getAllBooks() {
-        return bookMapper.toDtoList(bookRepository.findAll());
+     public Page<BookDto> getAllBooks(Pageable pageable) {
+        Page<Book> page = bookRepository.findAll(pageable);
+        return page.map(bookMapper::toDto);
     }
 
-    public List<BookDto> searchBooks(String title, String author) {
+    public Page<BookDto> searchBooks(String title, String author, Pageable pageable) {
         if ((title == null || title.isBlank()) &&
         (author == null || author.isBlank())) {
             throw new IllegalArgumentException("At least one search parameter must be entered");
@@ -57,15 +62,17 @@ public class BookService {
         Set<Book> results = new HashSet<>();
 
         if (title != null && !title.isBlank()) {
-            results.addAll((bookRepository.findByTitleContainingIgnoreCase(title)));
+            results.addAll(bookRepository.findByTitleContainingIgnoreCase(title, pageable).getContent());
         }
 
         if (author != null && !author.isBlank()) {
-            results.addAll(bookRepository.findByAuthor_NameContainingIgnoreCase(author));
+            results.addAll(bookRepository.findByAuthor_NameContainingIgnoreCase(author, pageable).getContent());
         }
 
-        return results.stream()
+        List<BookDto> dtoList = results.stream()
             .map(bookMapper::toDto)
             .toList();
+
+        return new PageImpl<>(dtoList, pageable, dtoList.size());
     }
 }

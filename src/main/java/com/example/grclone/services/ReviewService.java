@@ -34,12 +34,12 @@ public class ReviewService {
         this.userRepository = userRepository;
     }
 
-    public ReviewDto createReview(ReviewDto reviewDto) {
+    public ReviewDto createReview(ReviewDto reviewDto, Principal principal) {
 
         Book book = bookRepository.findById(reviewDto.getBookIsbn())
         .orElseThrow(() -> new RuntimeException("Book not found"));
 
-        User user = userRepository.findByUsername(reviewDto.getReviewerUsername())
+        User user = userRepository.findByUsername(principal.getName())
         .orElseThrow(() -> new RuntimeException("User not found"));
 
         Review review = reviewMapper.toEntity(reviewDto, user, book);

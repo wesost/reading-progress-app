@@ -8,10 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+
 import com.example.grclone.dtos.BookDto;
 import com.example.grclone.services.BookService;
 
-import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -30,8 +33,10 @@ public class BookController {
     }
 
     @GetMapping
-    public List<BookDto> getAllBooks() {
-        return bookService.getAllBooks();
+    public Page<BookDto> getAllBooks(
+        @PageableDefault(sort = "title") Pageable pageable
+    ) {
+        return bookService.getAllBooks(pageable);
     }
     
 
@@ -47,11 +52,12 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<BookDto>> searchBooks(
+    public ResponseEntity<Page<BookDto>> searchBooks(
         @RequestParam(value = "title", required = false) String title,
-        @RequestParam(value = "author", required = false) String author
+        @RequestParam(value = "author", required = false) String author,
+        @PageableDefault(size = 10, sort = "title") Pageable pageable
         ) {
-        List<BookDto> results = bookService.searchBooks(title, author);
+        Page<BookDto> results = bookService.searchBooks(title, author, pageable);
         return ResponseEntity.ok(results);
     }
     
