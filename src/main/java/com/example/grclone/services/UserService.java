@@ -3,6 +3,9 @@ package com.example.grclone.services;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -67,8 +70,10 @@ public class UserService implements UserDetailsService {
             .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
     }
 
-    public List<UserResponseDto> getAllUsers() {
-        return userMapper.toUserResponseDtoList(userRepository.findAll());
+    public Page<UserResponseDto> getAllUsers(Pageable pageable) {
+        Page<User> results = userRepository.findAll(pageable);
+        return results.map(userMapper::toResponseDto);
+        
     }
 
     public List<UserResponseDto> searchUsers(String username) {

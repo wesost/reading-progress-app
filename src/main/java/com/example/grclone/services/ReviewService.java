@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.security.core.Authentication;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 
 import com.example.grclone.dtos.ReviewDto;
 import com.example.grclone.dtos.ReviewWithBookTitleDto;
@@ -47,16 +49,17 @@ public class ReviewService {
         return reviewMapper.toDto(saved);
     }
 
-    public List<ReviewWithBookTitleDto> getAllReviews() {
-        return reviewMapper.toListOfReviewWithBookTitleDto(reviewRespository.findAll());
+    public Page<ReviewWithBookTitleDto> getAllReviews(Pageable pageable) {
+        Page<Review> page = reviewRespository.findAll(pageable);
+        return page.map(reviewMapper::toReviewWithBookTitleDto);
     }
 
-    public List<ReviewWithBookTitleDto> getAllUserReviews(String username){
+    public Page<ReviewWithBookTitleDto> getAllUserReviews(String username, Pageable pageable){
         User user = userRepository.findByUsername(username)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
             
-        List<Review> reviews = reviewRespository.findByReviewer(user);
-        return reviewMapper.toListOfReviewWithBookTitleDto(reviews);
+        Page<Review> results = reviewRespository.findByReviewer(user, pageable);
+        return results.map(reviewMapper::toReviewWithBookTitleDto);
     } 
 
     public void deleteReview(Long reviewId, Principal principal) {
