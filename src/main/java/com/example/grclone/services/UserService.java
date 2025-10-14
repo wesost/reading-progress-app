@@ -76,17 +76,14 @@ public class UserService implements UserDetailsService {
         
     }
 
-    public List<UserResponseDto> searchUsers(String username) {
+    public Page<UserResponseDto> searchUsers(String username, Pageable pageable) {
         if (username == null || username.isBlank()) {
             throw new IllegalArgumentException("please supply a username");
         }
-        Set<User> results = new HashSet<>();
-        results.addAll(userRepository.findByUsernameContainingIgnoreCase(username));
-        return results.stream()
-            .map(userMapper::toResponseDto)
-            .toList();
+        Page<User> results = userRepository.findByUsernameContainingIgnoreCase(username, pageable);
+        return results.map(userMapper::toResponseDto);
     }
-
+    
     public void deleteUser(String username) {
         User user = userRepository.findByUsername(username)
             .orElseThrow(() -> new ResponseStatusException(

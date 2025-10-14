@@ -11,7 +11,7 @@ public class WebConfig {
     @Bean
     PageableHandlerMethodArgumentResolverCustomizer customizePagination() {
         return resolver -> {
-            resolver.setMaxPageSize(25);
+            resolver.setMaxPageSize(3);
             resolver.setFallbackPageable(PageRequest.of(0,15));
         };
     }
