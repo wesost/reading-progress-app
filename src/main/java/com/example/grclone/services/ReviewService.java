@@ -106,6 +106,13 @@ public class ReviewService {
         return reviewMapper.toDto(saved);
     }
 
+    public List<ReviewWithBookTitleDto> getRecentReviews() {
+        List<Review> reviews = reviewRespository.findTop3ByOrderByCreatedAtDesc();
+        return reviews.stream()
+            .map(reviewMapper::toReviewWithBookTitleDto)
+            .toList();
+    }
+
     
     // METHODS
     // Optional<List<Review>> getReviewsForBooksByAuthor(String authorName) // authors w/ same name?

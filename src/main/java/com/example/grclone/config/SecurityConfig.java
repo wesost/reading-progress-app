@@ -26,6 +26,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable()) // read into csrf
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers(HttpMethod.GET, "/api/home").permitAll()
                 .requestMatchers("/books/**", "/login/**").permitAll()
 
                 .requestMatchers(HttpMethod.DELETE, "/reviews/**").hasAnyRole("USER", "ADMIN")

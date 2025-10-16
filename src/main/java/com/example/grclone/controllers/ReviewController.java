@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.security.Principal;
+import org.springframework.web.bind.annotation.RequestParam;
+import java.util.List;
 
 
 @RestController
@@ -76,4 +78,10 @@ public class ReviewController {
         ReviewDto updated = reviewService.updateReview(id, updatedReviewDto, authentication);
         return ResponseEntity.ok(updated);
     }
+
+    @GetMapping("/recent")
+    public List<ReviewWithBookTitleDto> getRecentReviews() {
+        return reviewService.getRecentReviews();
+    }
+    
 }
