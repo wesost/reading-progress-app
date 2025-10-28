@@ -1,12 +1,15 @@
 package com.example.grclone.entities;
 
 import org.springframework.security.core.userdetails.UserDetails;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 
 
 import jakarta.persistence.*;
 
 import lombok.*;
+
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -34,6 +37,13 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String role = "ROLE_USER";
 
+    @Column(nullable = false)
+    private boolean verified = false;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+    
     public User(String username, String email, String password, String role) {
         this.username = username;
         this.email = email;

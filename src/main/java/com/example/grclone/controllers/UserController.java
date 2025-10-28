@@ -64,6 +64,11 @@ public class UserController {
     }
 
 
-    //update user...low priority
+    @GetMapping("/verify")
+    public ResponseEntity<String> verifyUser(@RequestParam("token") String token) {
+        userService.verifyUser(token);
+        return ResponseEntity.ok("Email verified successfully");
+    }
+
     
 }

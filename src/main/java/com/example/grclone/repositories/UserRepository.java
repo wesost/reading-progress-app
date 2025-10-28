@@ -2,6 +2,7 @@ package com.example.grclone.repositories;
 
 import com.example.grclone.entities.User;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -16,5 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
     Page<User> findByUsernameContainingIgnoreCase(String username, Pageable pageable);
+    void deleteByVerifiedFalseAndCreatedAtBefore(LocalDateTime cutoff);
 
 } 
