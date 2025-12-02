@@ -51,6 +51,8 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
+    // search handled on frontend via google books api, maybe this can be used internally
+    // so I'll keep it for now
     @GetMapping("/search")
     public ResponseEntity<Page<BookDto>> searchBooks(
         @RequestParam(value = "title", required = false) String title,

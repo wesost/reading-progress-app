@@ -29,4 +29,6 @@ public class Book {
     @JoinColumn(name = "author_id", nullable = false) // not sure about this line
     private Author author;
 
+    private String imageUrl;
+
 }

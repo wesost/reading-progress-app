@@ -16,6 +16,7 @@ public class BookMapper {
         return new BookDto(
             book.getIsbn(),
             book.getTitle(),
+            book.getImageUrl(),
             book.getAuthor().getName());
     }
 
@@ -23,7 +24,8 @@ public class BookMapper {
         return new Book(
             dto.getIsbn(),
             dto.getTitle(),
-            author
+            author,
+            dto.getImageUrl()
             );
     }
 

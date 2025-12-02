@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class BookDto {
     private String isbn;
     private String title;
+    private String imageUrl;
     private String authorName;
 
 }
