@@ -1,5 +1,6 @@
 package com.example.grclone.dtos;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ public class ReviewWithBookTitleDto {
     private Float rating;
     private String reviewText;
     private LocalDateTime createdAt;
+    private LocalDate dateFinished;
 
     
 }

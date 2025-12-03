@@ -7,6 +7,8 @@ import com.example.grclone.dtos.ReviewWithBookTitleDto;
 import com.example.grclone.entities.Review;
 import com.example.grclone.entities.Book;
 import com.example.grclone.entities.User;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +20,8 @@ public class ReviewMapper {
             review.getReviewer().getUsername(),
             review.getBook().getIsbn(),
             review.getRating(),
-            review.getReviewText()
+            review.getReviewText(),
+            review.getDateFinished()
         );
     }
 
@@ -27,7 +30,8 @@ public class ReviewMapper {
             dto.getRating().floatValue(),
             dto.getReviewText(),
             user,
-            book
+            book,
+            dto.getDateFinished()
         );
     }
 
@@ -45,7 +49,8 @@ public class ReviewMapper {
             review.getBook().getTitle(),
             review.getRating(),
             review.getReviewText(),
-            review.getCreatedAt()
+            review.getCreatedAt(),
+            review.getDateFinished()
         );
     }
 
