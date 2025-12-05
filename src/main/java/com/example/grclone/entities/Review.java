@@ -27,7 +27,7 @@ public class Review {
 
     @DecimalMin("0.00")
     @DecimalMax("10.00")
-    private Float rating; // restrict the range this can be in eventually
+    private Float rating;
 
     private String reviewText;
 

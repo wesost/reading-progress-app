@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.security.Principal;
 import java.util.List;
 
+import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/reviews")
@@ -39,7 +41,7 @@ public class ReviewController {
 
     @PostMapping("/books/{isbn}")
     public ResponseEntity<ReviewDto> createReview(
-        @RequestBody ReviewDto reviewDto,
+        @Valid @RequestBody ReviewDto reviewDto,
         Principal principal
     ) {
         ReviewDto created = reviewService.createReview(reviewDto, principal);
