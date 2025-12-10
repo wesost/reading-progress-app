@@ -1,14 +1,18 @@
 package com.example.grclone.services;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.example.grclone.entities.User;
+
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-
+import org.springframework.http.HttpStatus;
 
 import com.example.grclone.dtos.BookDto;
 import com.example.grclone.entities.Author;
@@ -16,17 +20,20 @@ import com.example.grclone.entities.Book;
 import com.example.grclone.mappers.BookMapper;
 import com.example.grclone.repositories.AuthorRepository;
 import com.example.grclone.repositories.BookRepository;
+import com.example.grclone.repositories.UserRepository;
 
 @Service
 public class BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final AuthorRepository authorRepository;
+    private final UserRepository userRepository;
 
-    public BookService(BookRepository bookRepository, AuthorRepository authorRepository, BookMapper bookMapper) {
+    public BookService(BookRepository bookRepository, AuthorRepository authorRepository, BookMapper bookMapper, UserRepository userRepository) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
         this.bookMapper = bookMapper;
+        this.userRepository = userRepository;
     }
 
     public BookDto getBookByIsbn(String isbn) {
@@ -52,6 +59,26 @@ public class BookService {
      public Page<BookDto> getAllBooks(Pageable pageable) {
         Page<Book> page = bookRepository.findAll(pageable);
         return page.map(bookMapper::toDto);
+    }
+
+    public void deleteBook(String isbn, Principal principal){
+        Book book = bookRepository.findById(isbn)
+        .orElseThrow(() -> new ResponseStatusException(
+            HttpStatus.NOT_FOUND,
+            "Book to delete not found"
+        ));
+
+        User currentUser = userRepository.findByUsername(principal.getName())
+        .orElseThrow(() -> new ResponseStatusException(
+            HttpStatus.UNAUTHORIZED,
+            "User not found"
+        ));
+
+        if (currentUser.getRole().equals("ROLE_ADMIN")) {
+            bookRepository.delete(book);
+        } else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Error deleting book");
+        }
     }
 
     public Page<BookDto> searchBooks(String title, String author, Pageable pageable) {

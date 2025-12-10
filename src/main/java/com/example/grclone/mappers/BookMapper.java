@@ -1,6 +1,7 @@
 // manual bookmapper but could also use ModelMapper or MapStruct in the future
 package com.example.grclone.mappers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,9 @@ public class BookMapper {
             dto.getIsbn(),
             dto.getTitle(),
             author,
-            dto.getImageUrl()
+            dto.getImageUrl(),
+            new ArrayList<>()
+
             );
     }
 

@@ -2,11 +2,14 @@ package com.example.grclone.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +52,12 @@ public class BookController {
     public ResponseEntity<BookDto> createBook(@RequestBody BookDto bookDto) {
         BookDto created = bookService.createBook(bookDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+
+    @DeleteMapping("/{isbn}")
+    public ResponseEntity<Void> deleteBook(@PathVariable String isbn, Principal principal){
+        bookService.deleteBook(isbn, principal);
+        return ResponseEntity.noContent().build();
     }
 
     // search handled on frontend via google books api, maybe this can be used internally
