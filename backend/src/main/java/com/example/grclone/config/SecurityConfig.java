@@ -27,17 +27,17 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // read into csrf
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.GET, "/api/home").permitAll()
-                .requestMatchers("/books/**", "/login/**").permitAll()
-                .requestMatchers(HttpMethod.DELETE, "/books/**").hasRole("ADMIN")
+                .requestMatchers("api/books/**", "api/login/**").permitAll()
+                .requestMatchers(HttpMethod.DELETE, "api/books/**").hasRole("ADMIN")
 
-                .requestMatchers(HttpMethod.DELETE, "/reviews/**").hasAnyRole("USER", "ADMIN")
-                .requestMatchers(HttpMethod.GET, "/reviews/**").permitAll()
-                .requestMatchers(HttpMethod.PATCH, "/reviews/**").hasAnyRole("USER", "ADMIN")
-                .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                .requestMatchers(HttpMethod.GET, "/users/verify/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/users/search/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "api/reviews/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers(HttpMethod.GET, "api/reviews/**").permitAll()
+                .requestMatchers(HttpMethod.PATCH, "api/reviews/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers(HttpMethod.POST, "api/users").permitAll()
+                .requestMatchers(HttpMethod.GET, "api/users/verify/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "api/users/search/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "api/users/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "api/users/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .logout(logout -> logout

@@ -30,7 +30,7 @@ import jakarta.validation.Valid;
 
 
 @RestController
-@RequestMapping("/reviews")
+@RequestMapping("api/reviews")
 public class ReviewController {
 
     private final ReviewService reviewService;
