@@ -27,19 +27,22 @@ public class HomeController {
     @GetMapping("/home")
     public HomeResponseDto getLandingPageData(Authentication authentication) {
         List<ReviewWithBookTitleDto> recentReviews = reviewService.getRecentReviews();
+        int totalReviews = reviewService.getReviewCount();
         if (authentication == null || !authentication.isAuthenticated()) {
             return new HomeResponseDto(
                 false,
                 null,
                 "Welcome to the Site",
-                recentReviews
+                recentReviews,
+                totalReviews
             );
         }
 
         String username = authentication.getName();
         return new HomeResponseDto(true, username,
-        "Welcome back to the Site, "+username + ".",
-        recentReviews
+        "Welcome back to the Site, "+ username + ".",
+        recentReviews,
+        totalReviews
         );
     }
     

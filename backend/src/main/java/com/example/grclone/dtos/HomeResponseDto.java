@@ -12,4 +12,5 @@ public class HomeResponseDto {
     private String username;
     private String landingPageMessage;
     private List<ReviewWithBookTitleDto> recentReviews;
+    private int totalReviews;
 }

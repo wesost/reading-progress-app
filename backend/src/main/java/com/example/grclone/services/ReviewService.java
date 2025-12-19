@@ -113,14 +113,8 @@ public class ReviewService {
             .toList();
     }
 
-    
-    // METHODS
-    // Optional<List<Review>> getReviewsForBooksByAuthor(String authorName) // authors w/ same name?
-    // Optional<List<Review> getReviewsForBook(String isbn)
-    // Optional<List<Review>> getReviewsByUserAndBookIsbn(String username, String isbn)
-    // ReviewDto createReview(ReveiwDto)
-    // deleteReview
-    // updateReview
-    // List<Review> getAllReviews() // paginate eventually
+    public int getReviewCount() {
+        return (int) reviewRespository.count();
+    }
     
 }
