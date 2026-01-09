@@ -12,7 +12,7 @@ public class EmailService {
 
     private final JavaMailSender mailSender;
 
-    @Value("${app.base-url}")
+    @Value("${app.base-url}/api")
     private String baseUrl;
 
     public EmailService(JavaMailSender mailSender) {
