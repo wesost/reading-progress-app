@@ -5,6 +5,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -26,21 +28,28 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable()) // read into csrf
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.GET, "/api/home").permitAll()
-                .requestMatchers("api/books/**", "api/login/**").permitAll()
-                .requestMatchers(HttpMethod.DELETE, "api/books/**").hasRole("ADMIN")
+    // PUBLIC
+    .requestMatchers("/api/login/**").permitAll()
+    .requestMatchers("/api/books/**").permitAll()
+    .requestMatchers(HttpMethod.GET, "/api/reviews/**").permitAll()
+    .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
+    .requestMatchers("/api/users/verify/**").permitAll()
 
-                .requestMatchers(HttpMethod.DELETE, "api/reviews/**").hasAnyRole("USER", "ADMIN")
-                .requestMatchers(HttpMethod.GET, "api/reviews/**").permitAll()
-                .requestMatchers(HttpMethod.PATCH, "api/reviews/**").hasAnyRole("USER", "ADMIN")
-                .requestMatchers(HttpMethod.POST, "api/users").permitAll()
-                .requestMatchers(HttpMethod.GET, "api/users/me").permitAll()
-                .requestMatchers(HttpMethod.GET, "api/users/verify/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "api/users/search/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "api/users/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "api/users/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-            )
+    // AUTHENTICATED
+    .requestMatchers("/api/users/me").authenticated()
+    .requestMatchers(HttpMethod.DELETE, "/api/reviews/**")
+        .hasAnyRole("USER", "ADMIN")
+    .requestMatchers(HttpMethod.PATCH, "/api/reviews/**")
+        .hasAnyRole("USER", "ADMIN")
+
+    // ADMIN
+    .requestMatchers("/api/users/**").hasRole("ADMIN")
+    .requestMatchers(HttpMethod.DELETE, "/api/books/**").hasRole("ADMIN")
+
+    // EVERYTHING ELSE
+    .anyRequest().authenticated()
+)
+
             .logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessHandler((_, response, _) -> {

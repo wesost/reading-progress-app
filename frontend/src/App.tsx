@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import LoginPage from "./pages/LoginPage"
-// import { RequireAuth } from './auth/RequireAuth.tsx'
+import { RequireAuth } from './auth/RequireAuth.tsx'
 import UserReviewsPage from './pages/UserReviewsPage.tsx'
+import EditReviewPage from "./pages/EditReviewPage.tsx"
 function App() {
   return (
     <BrowserRouter>
@@ -13,6 +14,15 @@ function App() {
             <UserReviewsPage />
           }
         />
+        
+        <Route path="/reviews/:reviewId/edit"
+          element={
+          <RequireAuth>
+            <EditReviewPage />
+          </RequireAuth>
+          }
+        />
+
 
           
       </Routes>

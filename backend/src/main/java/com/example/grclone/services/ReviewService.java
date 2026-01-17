@@ -116,5 +116,11 @@ public class ReviewService {
     public int getReviewCount() {
         return (int) reviewRespository.count();
     }
+
+    public ReviewDto getReview(Long id) {
+        Review review = reviewRespository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Review not found"));
+        return reviewMapper.toDto(review);
+    }
     
 }

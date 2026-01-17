@@ -62,7 +62,7 @@ public class ReviewController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/{username}/reviews")
     public Page<ReviewWithBookTitleDto> getAllUserReviews(
         @PathVariable String username,
         @PageableDefault(sort = "reviewerUsername")
@@ -79,6 +79,12 @@ public class ReviewController {
         ReviewDto updated = reviewService.updateReview(id, updatedReviewDto, authentication);
         return ResponseEntity.ok(updated);
     }
+
+    @GetMapping("/{id}")
+    public ReviewDto getReview(@PathVariable Long id) {
+        return reviewService.getReview(id);
+    }
+    
 
     @GetMapping("/recent")
     public List<ReviewWithBookTitleDto> getRecentReviews() {
