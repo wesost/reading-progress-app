@@ -1,7 +1,7 @@
-import { useAuth } from "../auth/useAuth"
+import { useAuth } from "../features/auth/useAuth";
 
 export function LogoutButton() {
-  const { logout } = useAuth()
+  const { logout } = useAuth();
 
-  return <button onClick={logout}>Logout</button>
+  return <button onClick={logout}>Logout</button>;
 }
