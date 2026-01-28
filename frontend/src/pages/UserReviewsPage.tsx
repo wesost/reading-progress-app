@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../features/auth/useAuth";
 import { useNavigate } from "react-router-dom";
+import { ReviewCard } from "../Components/ReviewCard";
 type Review = {
   id: number;
   reviewerUsername: string;
@@ -18,18 +19,21 @@ export default function UserReviewsPage() {
   const { user, isAuthenticated } = useAuth();
 
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const navigate = useNavigate();
 
   const isOwner = isAuthenticated && user?.username === username;
   const isAdmin = user?.role === "ROLE_ADMIN";
 
   useEffect(() => {
-    fetch(`/api/reviews/${username}/reviews`)
+    fetch(`/api/reviews/${username}/reviews?page=${currentPage}&size=10`)
       .then((res) => res.json())
       .then((data) => {
         setReviews(data.content);
+        setTotalPages(data.totalPages);
       });
-  }, [username]);
+  }, [username, currentPage]);
 
   async function handleDelete(reviewId: number) {
     await fetch(`/api/reviews/${reviewId}`, {
@@ -42,27 +46,38 @@ export default function UserReviewsPage() {
 
   return (
     <div>
-      <h1>User Reviews</h1>
+      <h1>{username}'s Reviews</h1>
 
-      {reviews.length === 0 ? (
-        <p>User {username} has no reviews yet.</p>
-      ) : (
-        reviews.map((review) => (
-          <div key={review.id}>
-            <h3>{review.bookTitle}</h3>
-            <p>{review.reviewText}</p>
-            <p>{review.rating}</p>
-            {(isOwner || isAdmin) && (
-              <>
-                <button onClick={() => handleDelete(review.id)}>Delete</button>
+      <div className="review-grid">
+        {reviews.map(review => (
+          <ReviewCard key={review.id}
+          review={review}
+          showReviewer={false}
+          canManage={isOwner || isAdmin}
+          onDelete={(id) => handleDelete(id)}
+          onEdit={(id) => navigate(`/reviews/${id}'/edit`)}
+        />
+        ))}
+      </div>
 
-                <button onClick={() => navigate(`/reviews/${review.id}/edit`)}>
-                  Edit
-                </button>
-              </>
-            )}
-          </div>
-        ))
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button 
+            disabled={currentPage === 0} 
+            onClick={() => setCurrentPage(prev => prev - 1)}
+          >
+            Previous
+          </button>
+          
+          <span>Page {currentPage + 1} of {totalPages}</span>
+
+          <button 
+            disabled={currentPage >= totalPages - 1} 
+            onClick={() => setCurrentPage(prev => prev + 1)}
+          >
+            Next
+          </button>
+        </div>
       )}
     </div>
   );

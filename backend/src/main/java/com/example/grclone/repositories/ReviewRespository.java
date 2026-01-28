@@ -12,5 +12,6 @@ public interface ReviewRespository extends JpaRepository<Review, Long> {
 
     Page<Review> findByReviewer(User reviewer, Pageable pageable);
     List<Review> findTop3ByOrderByCreatedAtDesc();
+    Page<Review> findByBookIsbn(String isbn, Pageable pageable);
 
 }

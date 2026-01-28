@@ -54,6 +54,13 @@ public class ReviewService {
         return page.map(reviewMapper::toReviewWithBookTitleDto);
     }
 
+    public Page<ReviewWithBookTitleDto> getReviewsByIsbn(String isbn, Pageable pageable){
+        
+        Page<Review> reviews = reviewRespository.findByBookIsbn(isbn, pageable);
+
+        return reviews.map(reviewMapper::toReviewWithBookTitleDto);
+    }
+
     public Page<ReviewWithBookTitleDto> getAllUserReviews(String username, Pageable pageable){
         User user = userRepository.findByUsername(username)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));

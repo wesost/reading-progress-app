@@ -56,6 +56,14 @@ public class ReviewController {
         return reviewService.getAllReviews(pageable);
     }
 
+    @GetMapping("/books/{isbn}")
+    public Page<ReviewWithBookTitleDto> getBookReviews(
+        @PathVariable String isbn, 
+        Pageable pageable
+    ) {
+        return reviewService.getReviewsByIsbn(isbn, pageable);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReview(@PathVariable Long id, Principal principal) {
         reviewService.deleteReview(id, principal);
