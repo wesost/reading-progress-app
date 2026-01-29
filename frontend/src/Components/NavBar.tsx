@@ -18,7 +18,7 @@ export default function Navbar() {
 
       <ul className="nav-links">
         {/* --- COMMON LINKS (Visible to Everyone) --- */}
-        <li><Link to="/">Home</Link></li>
+        <li><Link to="/home">Home</Link></li>
         <li><Link to="/books/search">Search</Link></li>
 
         {/* --- LOGGED OUT ONLY --- */}
