@@ -29,6 +29,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // read into csrf
             .authorizeHttpRequests(auth -> auth
     // PUBLIC
+    .requestMatchers(HttpMethod.GET, "/api/home").permitAll()
     .requestMatchers("/api/login/**").permitAll()
     .requestMatchers("/api/books/**").permitAll()
     .requestMatchers(HttpMethod.GET, "/api/reviews/**").permitAll()
@@ -51,7 +52,7 @@ public class SecurityConfig {
 )
 
             .logout(logout -> logout
-                .logoutUrl("/logout")
+                .logoutUrl("/api/logout")
                 .logoutSuccessHandler((_, response, _) -> {
                     response.setStatus(HttpServletResponse.SC_OK);
                     response.setContentType("application/json");

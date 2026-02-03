@@ -55,7 +55,7 @@ export default function UserReviewsPage() {
           showReviewer={false}
           canManage={isOwner || isAdmin}
           onDelete={(id) => handleDelete(id)}
-          onEdit={(id) => navigate(`/reviews/${id}'/edit`)}
+          onEdit={(id) => navigate(`/reviews/${id}/edit`)}
         />
         ))}
       </div>

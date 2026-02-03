@@ -18,7 +18,7 @@ export async function login(username: string, password: string) {
 }
  
 export async function logout() {
-  const res = await fetch("/logout", {
+  const res = await fetch("/api/logout", {
     method: "POST",
     credentials: "include",
   })
