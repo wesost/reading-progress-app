@@ -102,3 +102,350 @@ button:focus-visible {
   cursor: pointer;
   border-radius: 4px;
 }
+
+
+.review-card {
+  background: white;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.review-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.book-title {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #2c3e50;
+}
+
+.rating-badge {
+  background: #f1c40f;
+  color: #2c3e50;
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.reviewer-name {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.review-text {
+  font-style: italic;
+  line-height: 1.5;
+  color: #34495e;
+}
+
+.review-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #f1f1f1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-edit, .btn-delete {
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-edit { background: #3498db; color: white; }
+.btn-delete { background: #e74c3c; color: white; }
+
+.home-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.hero {
+  text-align: center;
+  padding: 4rem 1rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 12px;
+  margin-bottom: 3rem;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.recent-reviews h2 {
+  margin-bottom: 1.5rem;
+  color: #34495e;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+/* THE GRID LOGIC */
+.review-grid {
+  display: grid;
+  /* This says: fill the row with cards at least 300px wide, but grow to fit */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+.book-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.book-cover {
+  width: 100%;
+  aspect-ratio: 2/3; /* Standard book cover shape */
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+.book-info {
+  padding: 1rem;
+}
+
+.book-title {
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.book-author {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.book-detail-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.book-detail-layout {
+  display: flex;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.book-detail-cover {
+  width: 300px;
+  border-radius: 8px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.book-info-section h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+}
+
+.author-name {
+  font-weight: 400;
+  color: #7f8c8d;
+  margin-bottom: 2rem;
+}
+
+.book-meta {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .book-detail-layout {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.review-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* Override the grid width if needed for this specific page */
+.book-reviews-list .review-card {
+  width: 100%;
+  max-width: 800px;
+}
+
+.pagination-small {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+.no-reviews {
+  color: #7f8c8d;
+  font-style: italic;
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* users */
+.user-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 600px;
+  margin: 20px 0;
+}
+
+.user-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.username {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.btn-delete-user {
+  background: #ff4757;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-delete-user:hover {
+  background: #ff6b81;
+}
+
+/* more reviews */
+.reviews-page-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.review-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* Pagination Styling */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  padding: 1rem;
+}
+
+/* admin dshbrd */
+.admin-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+}
+
+.admin-header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.admin-header h1 {
+  font-size: 2rem;
+  color: #2c3e50;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.admin-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.admin-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.module-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.btn-manage {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  font-weight: bold;
+  color: #3498db;
+}

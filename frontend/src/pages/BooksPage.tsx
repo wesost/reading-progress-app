@@ -1,3 +1,5 @@
+// display all books in a grid
+
 import { useEffect, useState } from "react";
 import type { Book } from "../types/book";
 import { BookCard } from "../Components/BookCard";

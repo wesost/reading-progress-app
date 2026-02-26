@@ -13,7 +13,7 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="nav-logo">
-        <Link to="/">BookArchive</Link>
+        <Link to="/home">BookArchive</Link>
       </div>
 
       <ul className="nav-links">
